@@ -14,6 +14,10 @@ pip install -r requirements.txt
 ```shell
 cp .env.example .env
 ```
+- Add tables to your database.
+```shell
+python manage.py migrate
+```
 
 - Run the bot using the command below
 ```shell

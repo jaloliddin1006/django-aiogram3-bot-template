@@ -15,11 +15,11 @@ SECRET_KEY = env.str("SECRET_KEY")
 DEBUG = env.bool("DEBUG")
 ADMINS = env.list("ADMINS")
 
-# DB_USER = env.str("DB_USER")
-# DB_PASS = env.str("DB_PASS")
-# DB_NAME = env.str("DB_NAME")
-# DB_HOST = env.str("DB_HOST")
-# DB_PORT = env.str("DB_PORT")
+DB_USER = env.str("DB_USER")
+DB_PASS = env.str("DB_PASS")
+DB_NAME = env.str("DB_NAME")
+DB_HOST = env.str("DB_HOST")
+DB_PORT = env.str("DB_PORT")
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -75,24 +75,24 @@ WSGI_APPLICATION = 'src.wsgi.application'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
 # DATABASE WITH SQLITE
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
-
-# DATABASE WITH POSTGRES
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': DB_NAME,
-#         'USER': DB_USER,
-#         "PASSWORD": DB_PASS,
-#         "HOST": DB_HOST,
-#         "PORT": DB_PORT,
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
+
+# DATABASE WITH POSTGRES
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': DB_NAME,
+        'USER': DB_USER,
+        "PASSWORD": DB_PASS,
+        "HOST": DB_HOST,
+        "PORT": DB_PORT,
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
