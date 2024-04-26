@@ -24,6 +24,16 @@ python manage.py migrate
 python manage.py runbot
 ```
 
+# 
+- Create superuser for backend the command below
+```shell
+python manage.py createsuperuser
+```
+
+- Run the django project using the command below
+```shell
+python manage.py runserver
+```
 ## If you have questions for this project, join and ask me: https://t.me/Mamatmusayev_uz
 
 
