@@ -3,14 +3,14 @@ from aiogram.types import CallbackQuery
 from aiogram.exceptions import TelegramBadRequest
 from keyboards import fabrics
 from aiogram import Router, F
-from data.subloader import get_json
+# from data.subloader import get_json
 
 router = Router()
 
 
 @router.callback_query(fabrics.Pagination.filter(F.action.in_(['prev', 'next'])))
 async def pagination_handler(call: CallbackQuery, callback_data: fabrics.Pagination):
-    smiliki = await get_json('smiles.json')
+    smiliki = {}
     current_page = int(callback_data.page)
     action = callback_data.action
     page = current_page - 1 if current_page > 0 else 0
