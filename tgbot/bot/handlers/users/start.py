@@ -2,7 +2,7 @@ from aiogram import Router, types
 from aiogram.filters import CommandStart
 from aiogram.enums.parse_mode import ParseMode
 from aiogram.client.session.middlewares.request_logging import logger
-
+from tgbot.bot.keyboards import reply
 from tgbot.models import User
 from tgbot.bot.loader import bot
 from django.conf import settings
@@ -25,6 +25,7 @@ async def do_start(message: types.Message):
     Markdownda _ * [ ] ( ) ~ ` > # + - = | { } . ! belgilari to'g'ridan to'g'ri ishlatilmaydi!!!
     Bu belgilarni ishlatish uchun oldidan \ qo'yish esdan chiqmasin. Masalan  \.  ko'rinishi . belgisini ishlatish uchun yozilgan.
     """
+    await message.answer(f"Assalomu alaykum ", parse_mode=ParseMode.MARKDOWN, reply_markup=reply.main_call)
 
     telegram_id = message.from_user.id
     full_name = message.from_user.full_name
@@ -47,4 +48,3 @@ async def do_start(message: types.Message):
             )
         except Exception as error:
             logger.info(f"Data did not send to admin: {admin}. Error: {error}")
-    await message.answer(f"Assalomu alaykum {make_title(full_name)}\!", parse_mode=ParseMode.MARKDOWN_V2)
