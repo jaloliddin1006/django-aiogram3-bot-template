@@ -7,24 +7,14 @@ from tgbot.models import User
 from tgbot.bot.loader import bot
 from django.conf import settings
 from tgbot.bot.utils.extra_datas import make_title
+from asgiref.sync import sync_to_async
 
 router = Router()
 
 
 @router.message(CommandStart())
 async def do_start(message: types.Message):
-    """
-            MARKDOWN V2                     |     HTML
-    link:   [Google](https://google.com/)   |     <a href='https://google.com/'>Google</a>
-    bold:   *Qalin text*                    |     <b>Qalin text</b>
-    italic: _Yotiq shriftdagi text_         |     <i>Yotiq shriftdagi text</i>
 
-
-
-                    **************     Note     **************
-    Markdownda _ * [ ] ( ) ~ ` > # + - = | { } . ! belgilari to'g'ridan to'g'ri ishlatilmaydi!!!
-    Bu belgilarni ishlatish uchun oldidan \ qo'yish esdan chiqmasin. Masalan  \.  ko'rinishi . belgisini ishlatish uchun yozilgan.
-    """
     await message.answer(f"Assalomu alaykum ", parse_mode=ParseMode.MARKDOWN, reply_markup=reply.main_call)
 
     telegram_id = message.from_user.id
@@ -39,6 +29,9 @@ async def do_start(message: types.Message):
         msg = (f"[{make_title(user.full_name)}](tg://user?id={user.telegram_id}) bazaga qo'shildi\.\nBazada {count} ta foydalanuvchi bor\.")
     else:
         msg = f"[{make_title(full_name)}](tg://user?id={telegram_id}) bazaga oldin qo'shilgan"
+        if not user.is_active:
+            await sync_to_async(User.objects.filter(telegram_id=telegram_id).update)(is_active=True)
+            
     for admin in settings.ADMINS:
         try:
             await bot.send_message(
