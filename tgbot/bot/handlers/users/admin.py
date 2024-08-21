@@ -1,3 +1,4 @@
+import asyncio
 from aiogram import F, Router, types
 from aiogram.fsm.context import FSMContext
 from aiogram.enums.parse_mode import ParseMode
@@ -35,40 +36,11 @@ async def message_format_func(message: types.Message, state=FSMContext):
     await message.answer("Foydalanuvchilarga yubormoqchi bo'lgan xabaringizni yozing:", reply_markup=reply.rmk)
 
 
-
 @router.message(MessageState.message, F.text)
 async def message_format_func(message: types.Message, state=FSMContext):
-
-    users = await sync_to_async(
-        lambda: list(User.objects.filter(is_active=True).values_list('telegram_id', flat=True)),
-        thread_sensitive=True
-    )()
     msg = message.text
-    msg_f = ParseMode.HTML
-
-    # admins = await get_admins()
-
-    for user in users:
-        try:
-            await bot.send_message(
-                chat_id=user,
-                text=msg,
-                parse_mode=msg_f
-            )
-       
-        except TelegramForbiddenError as err: # if user blocked bot
-            # await sync_to_async(User.objects.filter(telegram_id=user).delete)()
-            await sync_to_async(User.objects.filter(telegram_id=user).update)(is_active=False)
-
-            print("TelegramForbiddenError Error: ", err)
-            logger.info(f"Message did not send to user: {user}. Error: {err}")
-
-        except Exception as error:
-            logger.info(f"Message did not send to user: {user}. Error: {error}")
-
-    await message.answer(f"Xabar yuborildi!", reply_markup=reply.main)
+    await message.answer("Xabar yuborildi!", reply_markup=reply.main)
     await state.clear()
-
 
 
 @router.message(MessageState.message, ~F.text)

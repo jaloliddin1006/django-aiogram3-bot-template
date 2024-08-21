@@ -5,7 +5,7 @@ from django.utils.html import format_html
 
 @admin.register(TelegramUser)
 class UserAdmin(admin.ModelAdmin):
-    list_display = ("id", "full_name", "username", "telegram_id", )
+    list_display = ("id", "full_name", "username", "telegram_id", 'is_active')
     fields = ("full_name", "username", "telegram_id", )
     search_fields = ("full_name", "username", "telegram_id", )
     list_per_page = 50

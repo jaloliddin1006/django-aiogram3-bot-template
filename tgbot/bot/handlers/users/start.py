@@ -14,11 +14,9 @@ router = Router()
 
 @router.message(CommandStart())
 async def do_start(message: types.Message):
-
-    await message.answer(f"Assalomu alaykum ", parse_mode=ParseMode.MARKDOWN, reply_markup=reply.main_call)
-
     telegram_id = message.from_user.id
     full_name = message.from_user.full_name
+    await message.answer(f"Assalomu alaykum {full_name}! ", parse_mode=ParseMode.MARKDOWN)
     user, created = await User.objects.aget_or_create(
         telegram_id=telegram_id,
         full_name=full_name,
